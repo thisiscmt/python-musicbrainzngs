@@ -124,6 +124,11 @@ class BrowseTest(unittest.TestCase):
         musicbrainzngs.browse_release_groups(release=release, release_type=rel_type)
         self.assertEqual("https://musicbrainz.org/ws/2/release-group/?release=438042ef-7ccc-4d03-9391-4f66427b2055&type=ep", self.opener.get_url())
 
+        artist = "47f67b22-affe-4fe1-9d25-853d69bc0ee3"
+        release_group_status = "website-default"
+        musicbrainzngs.browse_release_groups(artist=artist, release_group_status=release_group_status)
+        self.assertEqual("https://musicbrainz.org/ws/2/release-group/?artist=47f67b22-affe-4fe1-9d25-853d69bc0ee3&release-group-status=website-default", self.opener.get_url())
+
     def test_browse_url(self):
         resource = "http://www.queenonline.com"
         musicbrainzngs.browse_urls(resource=resource)

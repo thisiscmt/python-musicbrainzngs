@@ -248,7 +248,7 @@ def _check_filter(values, valid):
 		if v not in valid:
 			raise InvalidFilterError(v)
 
-def _check_filter_and_make_params(entity, includes, release_status=[], release_type=[]):
+def _check_filter_and_make_params(entity, includes, release_status=[], release_type=[], release_group_status=None):
     """Check that the status or type values are valid. Then, check that
     the filters can be used with the given includes. Return a params
     dict that can be passed to _do_mb_query.
@@ -268,6 +268,8 @@ def _check_filter_and_make_params(entity, includes, release_status=[], release_t
             and entity not in ["release-group", "release"]):
         raise InvalidFilterError("Can't have a release type "
                 "with no releases or release-groups involved")
+    if release_group_status and release_group_status not in ["website-default", "all"]:
+        raise InvalidFilterError("Can't have a release group status value that is not website-default or all")
 
     # Build parameters.
     params = {}
@@ -275,6 +277,9 @@ def _check_filter_and_make_params(entity, includes, release_status=[], release_t
         params["status"] = "|".join(release_status)
     if len(release_type):
         params["type"] = "|".join(release_type)
+    if release_group_status:
+        params["release-group-status"] = release_group_status
+
     return params
 
 def _docstring_get(entity):
@@ -1065,7 +1070,7 @@ def get_works_by_iswc(iswc, includes=[]):
     return _do_mb_query("iswc", iswc, includes)
 
 
-def _browse_impl(entity, includes, limit, offset, params, release_status=[], release_type=[]):
+def _browse_impl(entity, includes, limit, offset, params, release_status=[], release_type=[], release_group_status=None):
     includes = includes if isinstance(includes, list) else [includes]
     valid_includes = VALID_BROWSE_INCLUDES[entity]
     _check_includes_impl(includes, valid_includes)
@@ -1077,7 +1082,7 @@ def _browse_impl(entity, includes, limit, offset, params, release_status=[], rel
         raise Exception("Can't have more than one of " + ", ".join(params.keys()))
     if limit: p["limit"] = limit
     if offset: p["offset"] = offset
-    filterp = _check_filter_and_make_params(entity, includes, release_status, release_type)
+    filterp = _check_filter_and_make_params(entity, includes, release_status, release_type, release_group_status)
     p.update(filterp)
     return _do_mb_query(entity, "", includes, p)
 
@@ -1161,7 +1166,7 @@ def browse_releases(artist=None, track_artist=None, label=None, recording=None,
 
 @_docstring_browse("release-group")
 def browse_release_groups(artist=None, release=None, release_type=[],
-                          includes=[], limit=None, offset=None):
+                          includes=[], limit=None, offset=None, release_group_status=None):
     """Get all release groups linked to an artist or a release.
     You need to give one MusicBrainz ID.
 
@@ -1171,7 +1176,7 @@ def browse_release_groups(artist=None, release=None, release_type=[],
     params = {"artist": artist,
               "release": release}
     return _browse_impl("release-group", includes, limit,
-                        offset, params, [], release_type)
+                        offset, params, [], release_type, release_group_status)
 
 @_docstring_browse("url")
 def browse_urls(resource=None, includes=[], limit=None, offset=None):
