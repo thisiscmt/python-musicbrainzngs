@@ -100,7 +100,7 @@ VALID_RELEASE_TYPES = [
     "nat",
     "album", "single", "ep", "broadcast", "other", # primary types
     "compilation", "soundtrack", "spokenword", "interview", "audiobook",
-    "live", "remix", "dj-mix", "mixtape/street", "audio drama" # secondary types
+    "live", "remix", "dj-mix", "mixtape/street", "audio drama", "demo", "field recording" # secondary types
 ]
 #: These can be used to filter whenever releases or release-groups are involved
 VALID_RELEASE_STATUSES = ["official", "promotion", "bootleg", "pseudo-release"]
