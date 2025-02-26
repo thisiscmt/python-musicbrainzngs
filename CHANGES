@@ -1,3 +1,8 @@
+0.7.2 (2025-02-26):
+    * added support for the release-group-status parameter when browsing release groups (Chris Tybur, #290)
+    * added support for additional release group secondary types (Chris Tybur)
+    * added support for the source-credit element in the URL relation xml element (Chris Tybur)
+
 0.7.1 (2020-01-11):
     * include README file in pypi
 

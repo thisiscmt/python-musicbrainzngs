@@ -20,7 +20,7 @@ from musicbrainzngs import mbxml
 from musicbrainzngs import util
 from musicbrainzngs import compat
 
-_version = "0.7.1"
+_version = "0.7.2"
 _log = logging.getLogger("musicbrainzngs")
 _max_retries = 8
 
