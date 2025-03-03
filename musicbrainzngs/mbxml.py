@@ -162,6 +162,7 @@ def parse_message(message):
                       "recording-list": parse_recording_list,
                       "work-list": parse_work_list,
                       "url-list": parse_url_list,
+                      "genre-list": parse_genre_list,
 
                       "collection-list": parse_collection_list,
                       "collection": parse_collection,
@@ -247,6 +248,7 @@ def parse_artist(artist):
                  "work-list": parse_work_list,
                  "tag-list": parse_tag_list,
                  "user-tag-list": parse_tag_list,
+                 "genre-list": parse_genre_list,
                  "rating": parse_rating,
                  "ipi-list": parse_element_list,
                  "isni-list": parse_element_list,
@@ -717,6 +719,19 @@ def parse_tag(tag):
 
     result.update(parse_attributes(attribs, tag))
     result.update(parse_elements(elements, {}, tag))
+
+    return result
+
+def parse_genre_list(gl):
+    return [parse_genre(g) for g in gl]
+
+def parse_genre(genre):
+    result = {}
+    attribs = ["id", "count"]
+    elements = ["name"]
+
+    result.update(parse_attributes(attribs, genre))
+    result.update(parse_elements(elements, {}, genre))
 
     return result
 
