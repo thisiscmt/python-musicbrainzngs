@@ -1,3 +1,6 @@
+0.7.4 (2025-04-18):
+    * added support for including release groups in the recording lookup by ID (Chris Tybur)
+
 0.7.3 (2025-03-03):
     * added support for parsing a genre list in API responses (Chris Tybur)
 
